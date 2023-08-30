@@ -23,7 +23,9 @@ namespace dotnet_rpg.Services.CharacterService
         {
             var serviceResponse = new ServiceResponse<List<GetCharacterDto>> ();
             var character = _mapper.Map<Character>(newCharacter);
-            
+
+           // character.Id =characters.Max(c=>c.Id)+1;
+
             _context.Characters.Add(character);
             serviceResponse.Data = characters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
             return serviceResponse;
@@ -51,6 +53,7 @@ namespace dotnet_rpg.Services.CharacterService
             try{
                  
                 var character = characters.FirstOrDefault(c=>c.Id == updatedCharacter.Id);
+                
                 if (character is null)
                     throw new Exception($"The character with the id {updatedCharacter.Id} has not been found.");
 
