@@ -75,8 +75,8 @@ namespace dotnet_rpg.Data
         {
             using(var hmac = new System.Security.Cryptography.HMACSHA512())
             {
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
                 passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }
 
@@ -86,11 +86,8 @@ namespace dotnet_rpg.Data
             {
                 var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
                 return computedHash.SequenceEqual(passwordHash); // do i have any idea what i am doing??? O_o
-
             }
-
         }
-
         private string CreateToken(User user)
         {
             var claims = new List<Claim>
@@ -98,13 +95,13 @@ namespace dotnet_rpg.Data
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Username)   
             };
-            /*
+            
             var appSettingsToken = _configuration.GetSection("AppSettings:Token").Value;
             if(appSettingsToken is null)
                 throw new Exception("AppSettings Token is null");
-                */
+                
 
-           SymmetricSecurityKey key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value!));
+           SymmetricSecurityKey key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(appSettingsToken));
 
             SigningCredentials credentials = new SigningCredentials(key,SecurityAlgorithms.HmacSha512Signature);
 

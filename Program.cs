@@ -22,11 +22,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => {
 
-    c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme {
+   c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme 
+  
+   {
         Description = """Standard Authorisation header using the Bearer scheme. Example: "bearer {token}" """,
         In = ParameterLocation.Header,
-        Name = "Authorisation",
-        Type = SecuritySchemeType.ApiKey
+        Type = SecuritySchemeType.ApiKey,
+        Name = "Authorization",
     });
     c.OperationFilter<SecurityRequirementsOperationFilter>();
 });
@@ -35,14 +37,17 @@ builder.Services.AddScoped<ICharacterService, CharacterService>();  //!!!
 builder.Services.AddScoped<IAuthentificationRepository, AuthentificationRepository>(); 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>{
-    options.IncludeErrorDetails = true;
+    
     options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value!)),
-        ValidateIssuer = false,
-        ValidateAudience = false,
-    };
+         {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value!)),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateTokenReplay = true
+                
+         };
+         options.IncludeErrorDetails = true;
 });
 
 var app = builder.Build();
