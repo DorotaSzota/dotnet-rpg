@@ -85,7 +85,7 @@ namespace dotnet_rpg.Data
             using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
             {
                 var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                return computedHash.SequenceEqual(passwordHash); // do i have any idea what i am doing??? O_o
+                return computedHash.SequenceEqual(passwordHash); 
             }
         }
         private string CreateToken(User user)

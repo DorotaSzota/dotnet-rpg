@@ -11,6 +11,7 @@ global using Microsoft.IdentityModel.Tokens;
 global using System.Security.Claims;
 
 using Microsoft.OpenApi.Models;
+using dotnet_rpg.Services.WeaponService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,7 +34,7 @@ builder.Services.AddSwaggerGen(c => {
     c.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
-builder.Services.AddScoped<ICharacterService, CharacterService>();  //!!!
+builder.Services.AddScoped<ICharacterService, CharacterService>();  
 builder.Services.AddScoped<IAuthentificationRepository, AuthentificationRepository>(); 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>{
@@ -49,6 +50,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
          };
          options.IncludeErrorDetails = true;
 });
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IWeaponService,WeaponService>(); 
 
 var app = builder.Build();
 
