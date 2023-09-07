@@ -9,9 +9,11 @@ global using Microsoft.Extensions.Options;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.IdentityModel.Tokens;
 global using System.Security.Claims;
-
+global using dotnet_rpg.Services.FightService;
 using Microsoft.OpenApi.Models;
 using dotnet_rpg.Services.WeaponService;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +55,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IWeaponService,WeaponService>(); 
+builder.Services.AddScoped<IFightService, FightService>();
 
 var app = builder.Build();
 
