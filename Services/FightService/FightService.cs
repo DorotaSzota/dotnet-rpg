@@ -82,8 +82,8 @@ namespace dotnet_rpg.Services.FightService
                     {
                         throw new Exception("Something's going on");
                     }
-                    int damage = attacker.Weapon.Damage + (new Random().Next(attacker.Strength);
-                    damage -= new Random().Next(opponent.Defeats));
+                    int damage = attacker.Weapon.Damage + (new Random().Next(attacker.Strength));
+                    damage -= new Random().Next(opponent.Defeats);
 
                     if(damage>0)
                     opponent.HitPoints -= damage;
